@@ -2,22 +2,22 @@
   "contactInfo": [
     {
       "type": "Email",
-      "value": "your.email@example.com",
-      "link": "mailto:your.email@example.com",
+      "value": "thor.truelson.work@gmail.com",
+      "link": "mailto:thor.truelson.work@gmail.com",
       "icon": "📧",
       "color": "#EA4335"
     },
     {
       "type": "GitHub",
-      "value": "github.com/yourusername",
-      "link": "https://github.com/yourusername",
+      "value": "https://github.com/truelsont",
+      "link": "https://github.com/truelsont",
       "icon": "💻",
       "color": "#24292E"
     },
     {
       "type": "LinkedIn",
-      "value": "linkedin.com/in/yourprofile",
-      "link": "https://linkedin.com/in/yourprofile",
+      "value": "LinkedIn Hyperlink",
+      "link": "https://www.linkedin.com/in/thor-truelson-69943620a/",
       "icon": "👔",
       "color": "#0A66C2"
     }

@@ -9,29 +9,21 @@
       "id": 1,
       "title": "Personal Portfolio",
       "description": "A Vue.js-based personal portfolio website showcasing projects and experience.",
-      "detailedSummary": "A modern, responsive portfolio website built with Vue.js and TypeScript. Features include dynamic project showcases, interactive timeline, and a contact form. The site demonstrates best practices in web development and modern UI/UX design principles.",
+      "detailedSummary": "The website you are currently viewing is this project. It's a modern, responsive portfolio website built with Vue.js and TypeScript. Features include dynamic project showcases, interactive timeline, and a contact form. The site demonstrates best practices in web development and modern UI/UX design principles.",
       "category": "Personal",
-      "technologies": ["Vue.js", "TypeScript", "CSS3"],
+      "technologies": ["Vue.js", "TypeScript"],
       "priority": 1,
-      "date": "2023-12-20",
+      "date": "2024-12-30",
       "links": [
-        {
-          "label": "View Demo",
-          "url": "https://portfolio.example.com"
-        },
         {
           "label": "GitHub",
           "url": "https://github.com/username/portfolio"
         }
-      ],
-      "images": [
-        "/images/portfolio-1.jpg",
-        "/images/portfolio-2.jpg"
       ]
     },
     {
       "id": 2,
-      "title": "Task Manager Application for University Research Project",
+      "title": "Fenrir Staregety",
       "description": "Full-stack task management application with real-time updates.",
       "detailedSummary": "A comprehensive task management solution that allows teams to collaborate in real-time. Features include drag-and-drop task organization, real-time notifications, and detailed analytics dashboard.",
       "category": "University",

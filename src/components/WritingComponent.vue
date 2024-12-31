@@ -26,12 +26,22 @@
               Read
             </a>
           </template>
-          <a :href="writing.filePath"
-             :download="getFileName(writing.filePath)"
-             class="action-button download-button"
-             @click.prevent="handleFileAction(writing.filePath, 'download')">
-            Download
-          </a>
+          <template v-if="writing.type === 'external'">
+            <a :href="writing.filePath"
+               class="action-button external-button"
+               target="_blank"
+               rel="noopener noreferrer">
+              Visit
+            </a>
+          </template>
+          <template v-if="writing.type !== 'external'">
+            <a :href="writing.filePath"
+               :download="getFileName(writing.filePath)"
+               class="action-button download-button"
+               @click.prevent="handleFileAction(writing.filePath, 'download')">
+              Download
+            </a>
+          </template>
         </div>
       </div>
     </div>
@@ -45,7 +55,7 @@ import writingData from '@/assets/component-data/writing-data.json'
 interface Writing {
   title: string
   date: string
-  type: 'markdown' | 'pdf'
+  type: 'markdown' | 'pdf' | 'external'
   description: string
   filePath: string
   previewText?: string
@@ -122,6 +132,7 @@ function handleFileAction(filePath: string, action: 'read' | 'download') {
 
 .writing-header {
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .writing-header h2 {
@@ -219,6 +230,15 @@ function handleFileAction(filePath: string, action: 'read' | 'download') {
 
 .download-button:hover {
   background-color: var(--accent-color-dark);
+}
+
+.external-button {
+  background-color: #1DA1F2;
+  color: var(--bg-primary);
+}
+
+.external-button:hover {
+  background-color: #0d8bd9;
 }
 
 @media (max-width: 1024px) {
