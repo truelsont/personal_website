@@ -32,10 +32,17 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 
-const scrollToSection = (sectionId) => {
+const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId)
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
+    const headerHeight = document.querySelector('.header')?.offsetHeight || 0
+    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+    const offsetPosition = elementPosition - headerHeight
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    })
   }
 }
 </script>
@@ -51,7 +58,7 @@ const scrollToSection = (sectionId) => {
   z-index: 1000;
   transition: transform 0.3s ease;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   padding: 0 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);

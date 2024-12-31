@@ -1,0 +1,33 @@
+{
+  "contactInfo": [
+    {
+      "type": "Email",
+      "value": "your.email@example.com",
+      "link": "mailto:your.email@example.com",
+      "icon": "📧",
+      "color": "#EA4335"
+    },
+    {
+      "type": "GitHub",
+      "value": "github.com/yourusername",
+      "link": "https://github.com/yourusername",
+      "icon": "💻",
+      "color": "#24292E"
+    },
+    {
+      "type": "LinkedIn",
+      "value": "linkedin.com/in/yourprofile",
+      "link": "https://linkedin.com/in/yourprofile",
+      "icon": "👔",
+      "color": "#0A66C2"
+    }
+  ],
+  "resume": {
+    "title": "Download Resume",
+    "description": "Get my latest resume in PDF format",
+    "link": "/assets/resume.pdf",
+    "icon": "📄",
+    "color": "#4CAF50",
+    "lastUpdated": "December 2023"
+  }
+}

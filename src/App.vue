@@ -1,13 +1,13 @@
 <template>
-  <div class="container">
+  <div class="app-container">
     <HeaderComponent />
-    <div class="content">
+    <main class="content">
       <SummaryComponent />
       <TimelineComponent />
       <ProjectShowcaseComponent />
-      <BlogComponent />
+      <WritingComponent />
       <ContactComponent />
-    </div>
+    </main>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ import TimelineComponent from './components/TimelineComponent.vue'
 import ProjectShowcaseComponent from './components/ProjectShowcaseComponent.vue'
 import SummaryComponent from './components/SummaryComponent.vue'
 import HeaderComponent from './components/HeaderComponent.vue'
-import BlogComponent from './components/BlogComponent.vue'
+import WritingComponent from './components/WritingComponent.vue'
 import ContactComponent from './components/ContactComponent.vue'
 </script>
 
@@ -34,10 +34,12 @@ import ContactComponent from './components/ContactComponent.vue'
   --bg-secondary: #2c2c2c;
   --accent-color: #42b983;
   --header-height: 60px;
+  --max-width: 1200px;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
 }
 
 body {
@@ -46,29 +48,33 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: Arial, sans-serif;
-  overflow-y: auto;
+  min-height: 100vh;
 }
 
-#app {
-  width: 100%;
-  margin: 0 !important;
-  padding: 0 !important;
-  max-width: none !important;
-}
-
-.container {
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
 }
 
 .content {
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 2rem;
-  padding-top: calc(var(--header-height) + 2rem);
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
-  gap: 6rem;
+  align-items: center;
+  gap: 2rem;
+  margin-top: var(--header-height);
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 0 0.5rem;
+  }
 }
 
 h1 {

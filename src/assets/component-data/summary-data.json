@@ -1,0 +1,38 @@
+{
+  "name": "Your Name",
+  "title": "Software Engineer",
+  "location": "City, Country",
+  "profileImage": "/assets/images/profile.jpg",
+  "shortBio": "Software Engineer passionate about building innovative solutions",
+  "description": [
+    "I am a software engineer with a strong foundation in full-stack development and a passion for creating elegant solutions to complex problems."
+  ],
+  "highlights": "5+ years of experience in Software Development with a B.S. in Computer Science",
+  "skills": {
+    "languages": [
+      "Python",
+      "Java",
+      "C/C++"
+    ],
+    "tools": [
+      "Git",
+      "Docker",
+      "AWS",
+      "Kubernetes"
+    ]
+  },
+  "socialLinks": [
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/yourusername"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://linkedin.com/in/yourprofile"
+    },
+    {
+      "platform": "Twitter",
+      "url": "https://twitter.com/yourhandle"
+    }
+  ]
+}

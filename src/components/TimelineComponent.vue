@@ -1,140 +1,269 @@
 <template>
-  <div class="timeline-container" id="experience">
-    <h2 class="section-title">Experience</h2>
-    <div class="timeline">
-      <div v-for="item in timelineItems" :key="item.id" class="timeline-item">
-        <div class="timeline-content">
-          <div class="date">{{ item.date }}</div>
-          <h3>{{ item.title }}</h3>
-          <h4>{{ item.company }}</h4>
-          <p>{{ item.description }}</p>
+  <div class="timeline-section" id="timeline">
+    <div class="timeline-header">
+      <h2>Experience Timeline</h2>
+    </div>
+    <div class="timeline-scroll">
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+        
+        <div v-for="(item, index) in items" 
+             :key="index"
+             class="timeline-item"
+             :class="{ 
+               'left': index % 2 === 0,
+               'right': index % 2 === 1
+             }"
+             @click="selectItem(index)">
+          <div class="timeline-content-wrapper">
+            <div class="timeline-connector"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <h3>{{ item.title }}</h3>
+                <div class="timeline-org">{{ item.organization }}</div>
+                <div class="timeline-date">{{ item.date }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expanded View -->
+        <div v-if="selectedItem !== null" 
+             class="timeline-expanded"
+             @click.self="closeExpanded">
+          <div class="expanded-content">
+            <button class="close-button" @click="closeExpanded">&times;</button>
+            <h3>{{ items[selectedItem].title }}</h3>
+            <div class="timeline-org">{{ items[selectedItem].organization }}</div>
+            <div class="timeline-date">{{ items[selectedItem].date }}</div>
+            <div class="expanded-details">
+              <img v-if="items[selectedItem].image" 
+                   :src="items[selectedItem].image" 
+                   :alt="items[selectedItem].title">
+              <p>{{ items[selectedItem].summary }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-const timelineItems = [
-  {
-    id: 1,
-    date: '2023 - Present',
-    title: 'Senior Software Engineer',
-    company: 'Tech Company',
-    description: 'Leading development of cloud-native applications using modern technologies.'
-  },
-  {
-    id: 2,
-    date: '2021 - 2023',
-    title: 'Frontend Developer',
-    company: 'Web Agency',
-    description: 'Developed responsive web applications using Vue.js and React.'
-  }
-]
+<script setup>
+import { ref, onMounted } from 'vue'
+import timelineData from '@/assets/component-data/timeline-data.json'
+
+const selectedItem = ref(null)
+const items = ref([])
+
+onMounted(() => {
+  items.value = timelineData.items
+})
+
+const selectItem = (index) => {
+  selectedItem.value = index
+}
+
+const closeExpanded = () => {
+  selectedItem.value = null
+}
 </script>
 
 <style scoped>
-.timeline-container {
+.timeline-section {
   width: 100%;
-  overflow: visible;
+  padding: 1rem 0 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-scroll {
+  height: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
   padding: 2rem 0;
 }
 
-h2.section-title {
-  font-size: 2.5rem;
-  margin-bottom: 3rem;
-  text-align: center;
-}
-
-.timeline {
+.timeline-container {
   position: relative;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 0;
 }
 
-.timeline::before {
+.timeline-line {
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  background: var(--accent-color);
+  z-index: 1;
+}
+
+.timeline-line::before,
+.timeline-line::after {
   content: '';
   position: absolute;
-  width: 2px;
-  background: var(--accent-color);
-  top: 0;
-  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+  background: var(--bg-primary);
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.timeline-line::before {
+  content: 'December 2024';
+  top: -3rem;
+}
+
+.timeline-line::after {
+  content: 'January 2020';
+  bottom: -3rem;
 }
 
 .timeline-item {
-  padding: 2rem 0;
-  position: relative;
   width: 100%;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.timeline-item.left {
+  justify-content: flex-end;
+}
+
+.timeline-item.right {
+  justify-content: flex-start;
+}
+
+.timeline-content-wrapper {
+  width: 400px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.timeline-item.left .timeline-content-wrapper {
+  flex-direction: row-reverse;
+  margin-right: 50%;
+  padding-right: 1rem;
+}
+
+.timeline-item.right .timeline-content-wrapper {
+  margin-left: 50%;
+  padding-left: 1rem;
+}
+
+.timeline-connector {
+  width: 3rem;
+  height: 2px;
+  background: var(--accent-color);
 }
 
 .timeline-content {
+  flex: 1;
   background: var(--bg-secondary);
   padding: 1.5rem;
-  border-radius: 12px;
-  width: calc(50% - 2rem);
-  position: relative;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
-.timeline-item:nth-child(odd) .timeline-content {
-  margin-right: auto;
+.timeline-content:hover {
+  transform: translateX(5px);
 }
 
-.timeline-item:nth-child(even) .timeline-content {
-  margin-left: auto;
+.timeline-header {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-.timeline-content::before {
-  content: '';
-  position: absolute;
-  width: 1rem;
-  height: 1rem;
-  background: var(--accent-color);
-  border-radius: 50%;
-  top: 50%;
-  transform: translateY(-50%);
+.timeline-header h2 {
+  font-size: 2.5rem;
+  color: var(--color-heading);
 }
 
-.timeline-item:nth-child(odd) .timeline-content::before {
-  right: -3rem;
-}
-
-.timeline-item:nth-child(even) .timeline-content::before {
-  left: -3rem;
-}
-
-.date {
-  color: var(--accent-color);
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-h3 {
-  font-size: 1.25rem;
-  margin: 0.5rem 0;
-}
-
-h4 {
+.timeline-org {
   color: var(--text-secondary);
-  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.timeline-date {
+  color: var(--accent-color);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+/* Expanded view */
+.timeline-expanded {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.expanded-content {
+  background: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.expanded-details {
+  margin-top: 2rem;
+}
+
+.expanded-details img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.expanded-details p {
+  line-height: 1.6;
+  color: var(--text-secondary);
 }
 
 @media (max-width: 768px) {
-  .timeline::before {
-    left: 2rem;
+  .timeline-item {
+    width: 300px;
   }
-
-  .timeline-content {
-    width: calc(100% - 4rem);
-    margin-left: 4rem !important;
-  }
-
-  .timeline-content::before {
-    left: -3rem !important;
+  
+  .timeline-item.left,
+  .timeline-item.right {
+    margin-left: 50%;
+    padding-left: 3rem;
+    padding-right: 0;
   }
 }
 </style>

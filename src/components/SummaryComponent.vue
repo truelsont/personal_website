@@ -1,123 +1,143 @@
 <template>
-  <div class="summary">
-    <h2 class="section-title">About Me</h2>
-    <div class="summary-content">
-      <div class="profile">
-        <div class="profile-image">
-          <img src="../assets/profile.jpg" alt="Profile" />
-        </div>
-        <div class="social-links">
-          <a href="https://github.com/yourusername" target="_blank" class="social-link">
-            <i class="fab fa-github"></i>
-          </a>
-          <a href="https://linkedin.com/in/yourusername" target="_blank" class="social-link">
-            <i class="fab fa-linkedin"></i>
-          </a>
+  <div class="summary-section" id="home">
+    <div class="profile-container">
+      <div class="profile-image-container">
+        <img :src="summaryData.profileImage" :alt="summaryData.name" class="profile-image">
+      </div>
+      <div class="profile-text">
+        <h1>{{ summaryData.name }}</h1>
+        <h2>{{ summaryData.title }}</h2>
+        <p class="location">{{ summaryData.location }}</p>
+        <p class="short-bio">{{ summaryData.shortBio }}</p>
+      </div>
+    </div>
+
+    <div class="description">
+      <p v-for="(paragraph, index) in summaryData.description" 
+         :key="index" 
+         class="description-paragraph">
+        {{ paragraph }}
+      </p>
+      <p class="highlights">{{ summaryData.highlights }}</p>
+    </div>
+
+    <div class="skills-section">
+      <div class="skills-category">
+        <h3>Languages</h3>
+        <div class="skills-tags">
+          <span v-for="lang in summaryData.skills.languages" 
+                :key="lang" 
+                class="skill-tag">{{ lang }}</span>
         </div>
       </div>
-      <div class="bio">
-        <p>
-          Hi, I'm Thor! I'm a passionate Software Engineer with expertise in full-stack development.
-          I love building elegant solutions to complex problems and am constantly learning new technologies.
-        </p>
-        <div class="skills">
-          <h3>Core Skills</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Vue.js</span>
-            <span class="skill-tag">React</span>
-            <span class="skill-tag">Node.js</span>
-            <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">AWS</span>
-          </div>
-        </div>
-        <div class="interests">
-          <h3>Interests</h3>
-          <p>
-            Beyond coding, I'm passionate about technology, open-source contribution, and staying
-            up-to-date with the latest industry trends. I enjoy problem-solving and creating
-            efficient, scalable solutions.
-          </p>
+      <div class="skills-category">
+        <h3>Tools</h3>
+        <div class="skills-tags">
+          <span v-for="tool in summaryData.skills.tools" 
+                :key="tool" 
+                class="skill-tag">{{ tool }}</span>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<script setup lang="ts">
+import summaryData from '@/assets/component-data/summary-data.json'
+</script>
+
 <style scoped>
-.summary {
-  width: 100%;
+.summary-section {
+  padding: 4rem 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.summary-content {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 4rem;
-  align-items: start;
-}
-
-.profile {
+.profile-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.profile-image-container {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile-image {
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid var(--accent-color);
-}
-
-.profile-image img {
-  width: 100%;
-  height: 100%;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
+  border: 4px solid var(--accent-color);
 }
 
-.social-links {
-  display: flex;
-  gap: 1rem;
+.profile-text {
+  flex: 1;
 }
 
-.social-link {
-  font-size: 1.5rem;
-  color: var(--text-primary);
-  transition: color 0.2s ease;
+h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-heading);
 }
 
-.social-link:hover {
-  color: var(--accent-color);
+h2 {
+  font-size: 1.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
 }
 
-.bio {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+.location {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
 }
 
-.bio p {
-  font-size: 1.1rem;
+.short-bio {
+  font-size: 1.4rem;
   line-height: 1.6;
 }
 
-.skills, .interests {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.description {
+  margin: 2rem 0;
 }
 
-h3 {
-  font-size: 1.5rem;
+.description-paragraph {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+}
+
+.highlights {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.skills-section {
+  margin: 2rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.skills-category h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
   color: var(--accent-color);
 }
 
-.skill-tags {
+.skills-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .skill-tag {
@@ -126,16 +146,43 @@ h3 {
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
-  border: 1px solid var(--accent-color);
+  transition: background-color 0.3s ease;
+}
+
+.skill-tag:hover {
+  background: var(--accent-color);
+  color: var(--bg-primary);
 }
 
 @media (max-width: 768px) {
-  .summary-content {
-    grid-template-columns: 1fr;
+  .profile-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
   }
 
-  .profile {
-    margin-bottom: 2rem;
+  .profile-image-container {
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .short-bio {
+    font-size: 1.2rem;
+  }
+
+  .description-paragraph {
+    font-size: 1rem;
+  }
+
+  .skills-section {
+    grid-template-columns: 1fr;
   }
 }
 </style>
