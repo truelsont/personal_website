@@ -19,10 +19,6 @@
           "label": "GitHub",
           "url": "https://github.com/username/portfolio"
         }
-      ],
-      "images": [
-        "/images/portfolio-1.jpg",
-        "/images/portfolio-2.jpg"
       ]
     },
     {
@@ -39,10 +35,6 @@
           "label": "GitHub",
           "url": "https://github.com/username/task-manager"
         }
-      ],
-      "images": [
-        "/images/portfolio-1.jpg",
-        "/images/portfolio-2.jpg"
       ]
     }
   ]

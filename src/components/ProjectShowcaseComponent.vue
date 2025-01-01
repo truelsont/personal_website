@@ -39,14 +39,6 @@
         <h2>{{ selectedProject.title }}</h2>
         <div class="modal-details">
           <p class="detailed-summary">{{ selectedProject.detailedSummary }}</p>
-          <div v-if="selectedProject.images" class="project-images">
-            <img v-for="(image, index) in selectedProject.images" 
-                 :key="index"
-                 :src="getImageUrl(image)"
-                 v-if="getImageUrl(image)"
-                 :alt="`${selectedProject.title} screenshot ${index + 1}`"
-                 class="project-image">
-          </div>
           <div class="project-tags">
             <span v-for="tech in selectedProject.technologies" :key="tech" class="tag">{{ tech }}</span>
           </div>
@@ -64,37 +56,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import projectsData from '@/assets/component-data/projects-data.json'
 
 const currentIndex = ref(0)
 const selectedProject = ref(null)
-const imageUrls = ref<Record<string, string>>({})
 const projects = ref(projectsData.projects)
-
-// Use Vite's glob import to get all project images
-const images = import.meta.glob('../assets/images/**/*')
-console.log(images)
-
-onMounted(async () => {
-  // Load all images for all project items
-  for (const item of projects.value) {
-    // Load main image
-    if (item.images) {
-      for (const imagePath of item.images) {
-        const fullPath = `../assets${imagePath}`
-        if (images[fullPath]) {
-          try {
-            const module = await images[fullPath]()
-            imageUrls.value[imagePath] = module.default
-          } catch (error) {
-            console.error(`Failed to load image: ${imagePath}`, error)
-          }
-        }
-      }
-    }
-  }
-})
 
 const sortedProjects = computed(() => {
   return [...projects.value].sort((a, b) => {
@@ -126,10 +93,6 @@ const selectProject = (project) => {
 
 const closeModal = () => {
   selectedProject.value = null
-}
-
-const getImageUrl = (path: string) => {
-  return imageUrls.value[path] || ''
 }
 </script>
 
@@ -307,27 +270,6 @@ h2 {
 .detailed-summary {
   margin-bottom: 2rem;
   line-height: 1.6;
-}
-
-.project-images {
-  margin: 2rem 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  width: 100%;
-}
-
-.project-image {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.project-image:hover {
-  transform: scale(1.02);
 }
 
 .project-tags {
