@@ -19,11 +19,15 @@
           "label": "GitHub",
           "url": "https://github.com/username/portfolio"
         }
+      ],
+      "images": [
+        "/images/portfolio-1.jpg",
+        "/images/portfolio-2.jpg"
       ]
     },
     {
       "id": 2,
-      "title": "Fenrir Staregety",
+      "title": "Fenrir Strategy",
       "description": "Full-stack task management application with real-time updates.",
       "detailedSummary": "A comprehensive task management solution that allows teams to collaborate in real-time. Features include drag-and-drop task organization, real-time notifications, and detailed analytics dashboard.",
       "category": "University",
@@ -37,23 +41,8 @@
         }
       ],
       "images": [
-        "/images/taskmanager-1.jpg",
-        "/images/taskmanager-2.jpg"
-      ]
-    },
-    {
-      "id": 3,
-      "title": "Open Source Library",
-      "description": "A utility library for handling complex data structures in JavaScript.",
-      "detailedSummary": "A comprehensive JavaScript library that provides efficient implementations of various data structures and algorithms. Features include tree traversal, graph algorithms, and sorting utilities.",
-      "category": "Open Source",
-      "technologies": ["JavaScript", "TypeScript", "Jest"],
-      "priority": 3,
-      "date": "2023-09-01",
-      "links": [],
-      "images": [
-        "/images/library-1.jpg",
-        "/images/library-2.jpg"
+        "/images/portfolio-1.jpg",
+        "/images/portfolio-2.jpg"
       ]
     }
   ]

@@ -23,6 +23,10 @@
                 <div class="timeline-org">{{ item.organization }}</div>
                 <div class="timeline-date">{{ item.date }}</div>
               </div>
+              <img v-if="item.image" 
+                   :src="getImageUrl(item.image)" 
+                   :alt="item.title"
+                   class="timeline-preview-image">
             </div>
           </div>
         </div>
@@ -37,9 +41,20 @@
             <div class="timeline-org">{{ items[selectedItem].organization }}</div>
             <div class="timeline-date">{{ items[selectedItem].date }}</div>
             <div class="expanded-details">
+              <!-- Main image -->
               <img v-if="items[selectedItem].image" 
-                   :src="items[selectedItem].image" 
-                   :alt="items[selectedItem].title">
+                   :src="getImageUrl(items[selectedItem].image)" 
+                   :alt="items[selectedItem].title"
+                   class="main-image">
+              
+              <!-- Additional images if they exist -->
+              <div v-if="items[selectedItem].additionalImages" class="additional-images">
+                <img v-for="(imagePath, imgIndex) in items[selectedItem].additionalImages"
+                     :key="imgIndex"
+                     :src="getImageUrl(imagePath)"
+                     :alt="`${items[selectedItem].title} - ${imgIndex + 2}`"
+                     class="additional-image">
+              </div>
               <p>{{ items[selectedItem].summary }}</p>
             </div>
           </div>
@@ -49,15 +64,42 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import timelineData from '@/assets/component-data/timeline-data.json'
 
+const currentIndex = ref(0)
 const selectedItem = ref(null)
 const items = ref([])
+const imageUrls = ref<Record<string, string>>({})
 
-onMounted(() => {
+// Use Vite's glob import to get all timeline images
+const images = import.meta.glob('../assets/images/**/image.png')
+console.log('Available images:', images)
+
+onMounted(async () => {
   items.value = timelineData.items
+  console.log('Timeline items:', items.value)
+
+  // Load all images for all timeline items
+  for (const item of items.value) {
+    if (item.image) {
+      const mainPath = `../assets/images${item.image}`
+      console.log('Looking for image at:', mainPath)
+      if (images[mainPath]) {
+        try {
+          const module = await images[mainPath]()
+          imageUrls.value[item.image] = module.default
+          console.log('Successfully loaded image:', item.image)
+        } catch (error) {
+          console.error(`Failed to load image: ${item.image}`, error)
+        }
+      } else {
+        console.warn('Image not found:', mainPath)
+      }
+    }
+  }
+  console.log('Final imageUrls:', imageUrls.value)
 })
 
 const selectItem = (index) => {
@@ -66,6 +108,10 @@ const selectItem = (index) => {
 
 const closeExpanded = () => {
   selectedItem.value = null
+}
+
+const getImageUrl = (path: string) => {
+  return imageUrls.value[path] || ''
 }
 </script>
 
@@ -200,6 +246,41 @@ const closeExpanded = () => {
   margin-top: 0.25rem;
 }
 
+.timeline-preview-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.main-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.additional-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.additional-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+.additional-image:hover {
+  transform: scale(1.05);
+}
+
 /* Expanded view */
 .timeline-expanded {
   position: fixed;
@@ -239,14 +320,6 @@ const closeExpanded = () => {
 
 .expanded-details {
   margin-top: 2rem;
-}
-
-.expanded-details img {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
 }
 
 .expanded-details p {

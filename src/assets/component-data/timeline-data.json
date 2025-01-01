@@ -1,32 +1,18 @@
 {
   "items": [
     {
-      "title": "",
-      "organization": "Tech Corp",
+      "title": "Software Engineer",
+      "organization": "Lockheed Martin Skunkworks",
       "date": "2023 - Present",
-      "summary": "Leading development of cloud-native applications and microservices architecture. Implementing best practices for scalable and maintainable code.",
-      "image": "/path/to/image1.jpg"
+      "summary": "Working on cutting-edge aerospace technology and AI systems.",
+      "image": "/timeline/image.png"
     },
     {
-      "title": "Frontend Developer",
-      "organization": "Web Agency",
-      "date": "2021 - 2023",
-      "summary": "Developed responsive web applications using modern JavaScript frameworks. Collaborated with designers to implement pixel-perfect UIs.",
-      "image": "/path/to/image2.jpg"
-    },
-    {
-      "title": "Open Source Contributor",
-      "organization": "Various Projects",
-      "date": "2021 - 2022",
-      "summary": "Contributed to multiple open source projects, focusing on performance optimizations and bug fixes.",
-      "image": "/path/to/image3.jpg"
-    },
-    {
-      "title": "B.S. in Artifical Intelligence",
+      "title": "B.S. in Artificial Intelligence",
       "organization": "Carnegie Mellon University",
       "date": "2020 - 2024",
-      "summary": "Built full-stack applications using Node.js and React. Implemented CI/CD pipelines and automated testing.",
-      "image": "/path/to/image4.jpg"
+      "summary": "",
+      "image": "/timeline/image.png"
     }
   ]
 }

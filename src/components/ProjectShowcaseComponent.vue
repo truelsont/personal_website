@@ -5,7 +5,7 @@
       <button class="nav-button prev" @click="prevProject" :disabled="currentIndex === 0">&lt;</button>
       <div class="projects-carousel">
         <div class="carousel-track" :style="{ transform: `translateX(-${currentIndex * (100/3)}%)` }">
-          <div v-for="project in sortedProjects" 
+          <div v-for="project in projects" 
                :key="project.id" 
                class="project-card" 
                @click="selectProject(project)">
@@ -39,11 +39,13 @@
         <h2>{{ selectedProject.title }}</h2>
         <div class="modal-details">
           <p class="detailed-summary">{{ selectedProject.detailedSummary }}</p>
-          <div class="project-images">
+          <div v-if="selectedProject.images" class="project-images">
             <img v-for="(image, index) in selectedProject.images" 
-                 :key="index" 
-                 :src="image" 
-                 :alt="selectedProject.title + ' image ' + (index + 1)">
+                 :key="index"
+                 :src="getImageUrl(image)"
+                 v-if="getImageUrl(image)"
+                 :alt="`${selectedProject.title} screenshot ${index + 1}`"
+                 class="project-image">
           </div>
           <div class="project-tags">
             <span v-for="tech in selectedProject.technologies" :key="tech" class="tag">{{ tech }}</span>
@@ -62,21 +64,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import projectsData from '@/assets/component-data/projects-data.json'
 
 const currentIndex = ref(0)
 const selectedProject = ref(null)
-
+const imageUrls = ref<Record<string, string>>({})
 const projects = ref(projectsData.projects)
+
+// Use Vite's glob import to get all project images
+const images = import.meta.glob('../assets/images/**/*')
+console.log(images)
+
+onMounted(async () => {
+  // Load all images for all project items
+  for (const item of projects.value) {
+    // Load main image
+    if (item.images) {
+      for (const imagePath of item.images) {
+        const fullPath = `../assets${imagePath}`
+        if (images[fullPath]) {
+          try {
+            const module = await images[fullPath]()
+            imageUrls.value[imagePath] = module.default
+          } catch (error) {
+            console.error(`Failed to load image: ${imagePath}`, error)
+          }
+        }
+      }
+    }
+  }
+})
 
 const sortedProjects = computed(() => {
   return [...projects.value].sort((a, b) => {
-    // If no priority is set, treat it as MAX_INT
     const priorityA = a.priority || Number.MAX_SAFE_INTEGER
     const priorityB = b.priority || Number.MAX_SAFE_INTEGER
-    
-    // Sort by priority (lower numbers first)
     return priorityA - priorityB
   })
 })
@@ -104,6 +127,10 @@ const selectProject = (project) => {
 const closeModal = () => {
   selectedProject.value = null
 }
+
+const getImageUrl = (path: string) => {
+  return imageUrls.value[path] || ''
+}
 </script>
 
 <style scoped>
@@ -122,7 +149,6 @@ h2 {
 }
 
 .carousel-container {
-  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
@@ -161,9 +187,9 @@ h2 {
   top: 1rem;
   left: 1rem;
   padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
   border-radius: 1rem;
   color: white;
-  font-size: 0.875rem;
   font-weight: 500;
   z-index: 1;
 }
@@ -284,17 +310,24 @@ h2 {
 }
 
 .project-images {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
   margin: 2rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
 }
 
-.project-images img {
+.project-image {
   width: 100%;
-  height: auto;
-  border-radius: 8px;
+  height: 250px;
   object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.project-image:hover {
+  transform: scale(1.02);
 }
 
 .project-tags {
@@ -305,9 +338,9 @@ h2 {
 }
 
 .tag {
+  padding: 0.25rem 0.75rem;
   background: var(--accent-color);
   color: var(--bg-primary);
-  padding: 0.25rem 0.75rem;
   border-radius: 1rem;
   font-size: 0.875rem;
 }
