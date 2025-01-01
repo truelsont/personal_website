@@ -2,7 +2,7 @@
   <div class="summary-section" id="home">
     <div class="profile-container">
       <div class="profile-image-container">
-        <img :src="summaryData.profileImage" :alt="summaryData.name" class="profile-image">
+        <img :src="imageUrl" :alt="summaryData.name" class="profile-image">
       </div>
       <div class="profile-text">
         <h1>{{ summaryData.name }}</h1>
@@ -44,6 +44,22 @@
 
 <script setup lang="ts">
 import summaryData from '@/assets/component-data/summary-data.json'
+import { ref, onMounted } from 'vue'
+
+const imageUrl = ref('')
+
+// Use Vite's glob import to get all images
+const images = import.meta.glob('../assets/images/*')
+
+onMounted(async () => {
+  const imagePath = `../assets/${summaryData.profileImage}`
+  if (images[imagePath]) {
+    const module = await images[imagePath]()
+    imageUrl.value = module.default
+  } else {
+    console.error(`Image not found: ${imagePath}`)
+  }
+})
 </script>
 
 <style scoped>

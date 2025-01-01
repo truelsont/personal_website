@@ -1,7 +1,7 @@
 {
   "items": [
     {
-      "title": "Senior Software Engineer",
+      "title": "",
       "organization": "Tech Corp",
       "date": "2023 - Present",
       "summary": "Leading development of cloud-native applications and microservices architecture. Implementing best practices for scalable and maintainable code.",
@@ -22,9 +22,9 @@
       "image": "/path/to/image3.jpg"
     },
     {
-      "title": "Full Stack Developer",
-      "organization": "Startup",
-      "date": "2020 - 2021",
+      "title": "B.S. in Artifical Intelligence",
+      "organization": "Carnegie Mellon University",
+      "date": "2020 - 2024",
       "summary": "Built full-stack applications using Node.js and React. Implemented CI/CD pipelines and automated testing.",
       "image": "/path/to/image4.jpg"
     }

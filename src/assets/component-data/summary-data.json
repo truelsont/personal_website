@@ -1,13 +1,13 @@
 {
-  "name": "Your Name",
+  "name": "Thor Truelson",
   "title": "Software Engineer",
-  "location": "City, Country",
-  "profileImage": "/assets/images/profile.jpg",
-  "shortBio": "Software Engineer passionate about building innovative solutions",
+  "location": "Fort Worth, Texas",
+  "profileImage": "images/profile.jpg",
+  "shortBio": "\"Vision without execution is hallucination.\" - Thomas Edison",
   "description": [
-    "I am a software engineer with a strong foundation in full-stack development and a passion for creating elegant solutions to complex problems."
+    "I am a software engineer that has recently graduated from Carnegie Mellon University. I have interest in AI/ML, AI agents, and distributed systems. I currently work at Lockheed Martin Skunkworks."
   ],
-  "highlights": "5+ years of experience in Software Development with a B.S. in Computer Science",
+  "highlights": "B.S. in Artifical Intelligence with Honors from Carnegie Mellon University. Pursuing M.S. in Compter Science from University of Texas at Austin.",
   "skills": {
     "languages": [
       "Python",
@@ -17,22 +17,8 @@
     "tools": [
       "Git",
       "Docker",
-      "AWS",
-      "Kubernetes"
+      "Linux (RHEL, Ubuntu)",
+      "Virtualization (KVM, Qemu)"
     ]
-  },
-  "socialLinks": [
-    {
-      "platform": "GitHub",
-      "url": "https://github.com/yourusername"
-    },
-    {
-      "platform": "LinkedIn",
-      "url": "https://linkedin.com/in/yourprofile"
-    },
-    {
-      "platform": "Twitter",
-      "url": "https://twitter.com/yourhandle"
-    }
-  ]
+  }
 }

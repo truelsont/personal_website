@@ -129,8 +129,8 @@ const closeExpanded = () => {
 .timeline-item {
   width: 100%;
   display: flex;
-  align-items: center;
   margin: 2rem 0;
+  align-items: center;
 }
 
 .timeline-item.left {
