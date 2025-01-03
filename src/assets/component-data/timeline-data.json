@@ -1,18 +1,37 @@
 {
   "items": [
     {
+      "title": "M.S. in Computer Science", 
+      "organization": "University of Texas at Austin",
+      "date": "January 2025 - Present",
+      "summary": "Pursuing masters while working full-time as a software engineer.",
+      "image": "/timeline/university_of_texas.png"
+    }, 
+    {
       "title": "Software Engineer",
       "organization": "Lockheed Martin Skunkworks",
-      "date": "2023 - Present",
-      "summary": "Working on cutting-edge aerospace technology and AI systems.",
-      "image": "/timeline/image.png"
+      "date": "June 2024 - Present",
+       "summary": "Lead development of VOIP Architecture v1.0 for Lockheed Martin's 5G.MIL program. Responsible for system and software architecture design for the 5th Gen Crewed-Uncrewed Teaming program, collaborating across multiple teams and companies to design robust platform communication architecture. Conducting research in AI methods to improve network performance benchmarks in large FANET networks.",
+      "image": "/timeline/skunkworks.png"
     },
+    {
+      "title": "Software Engineer Intern", 
+      "organization": "Bohemia Interactive Simulations",
+      "date": "Summer 2023",
+      "summary": "Implemented upgrades to S3 MinIO file service, adding HTTPS support and improving performance. Used OpenSSL, Nginx, AWS SDK and MinIO to achieve 86% faster HTTPS-supported file upload speeds compared to previous system iterations."
+    }, 
+    {
+      "title": "Software Engineer Intern", 
+      "organization": "National Financial Partners",
+      "date": "Summer 2022",
+      "summary": "Developed web scraper tool using NLTK and Beautiful Soup for analyzing player injuries, capable of processing hundreds of articles to generate injury reports in minutes. Maintained and updated World Baseball Classic Website and Database using Ruby on Rails, deployed on Heroku."
+    }, 
     {
       "title": "B.S. in Artificial Intelligence",
       "organization": "Carnegie Mellon University",
-      "date": "2020 - 2024",
-      "summary": "",
-      "image": "/timeline/image.png"
+      "date": "August 2020 - May 2024",
+      "summary": "Graduated with Bachelors Degree in Artifical Intelligence with University Honors. In addition to my undergraduate studies I was also a member of the Alpha Sigma Phi Fraternity and multiyear all conference football player",  
+      "image": "/timeline/carnegie_mellon.jpg"
     }
   ]
 }

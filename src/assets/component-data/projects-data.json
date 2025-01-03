@@ -36,6 +36,38 @@
           "url": "https://github.com/username/task-manager"
         }
       ]
+    },
+    {
+      "id": 3,
+      "title": "Placeholder",  
+      "description": "Full-stack task management application with real-time updates.",
+      "detailedSummary": "A comprehensive task management solution that allows teams to collaborate in real-time. Features include drag-and-drop task organization, real-time notifications, and detailed analytics dashboard.",
+      "category": "University",
+      "technologies": ["React", "Node.js", "MongoDB"],
+      "priority": 2,
+      "date": "2023-10-15",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/username/task-manager"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Placeholder",
+      "description": "Full-stack task management application with real-time updates.",
+      "detailedSummary": "A comprehensive task management solution that allows teams to collaborate in real-time. Features include drag-and-drop task organization, real-time notifications, and detailed analytics dashboard.",
+      "category": "University",
+      "technologies": ["React", "Node.js", "MongoDB"],
+      "priority": 2,
+      "date": "2023-10-15",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/username/task-manager"
+        }
+      ]
     }
   ]
 }

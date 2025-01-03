@@ -19,12 +19,13 @@
 
         <div class="writing-actions">
           <template v-if="writing.type === 'markdown'">
-            <a :href="writing.filePath"
-               class="action-button read-button"
-               target="_blank"
-               @click.prevent="handleFileAction(writing.filePath, 'read')">
-              Read
-            </a>
+            <button
+              class="action-button read-button"
+              @click="openMarkdownModal(writing)"
+              :disabled="isLoading"
+            >
+              {{ isLoading ? 'Loading...' : 'Read' }}
+            </button>
           </template>
           <template v-if="writing.type === 'external'">
             <a :href="writing.filePath"
@@ -35,21 +36,35 @@
             </a>
           </template>
           <template v-if="writing.type !== 'external'">
-            <a :href="writing.filePath"
-               :download="getFileName(writing.filePath)"
-               class="action-button download-button"
-               @click.prevent="handleFileAction(writing.filePath, 'download')">
-              Download
-            </a>
+            <button
+              class="action-button download-button"
+              @click="handleFileDownload(writing)"
+              :disabled="isLoading"
+            >
+              {{ isLoading ? 'Loading...' : 'Download' }}
+            </button>
           </template>
         </div>
+      </div>
+    </div>
+
+    <!-- Markdown Reading Modal -->
+    <div v-if="showMarkdownModal" class="modal-overlay" @click="closeMarkdownModal">
+      <div class="modal-content" @click.stop>
+        <button class="close-button" @click="closeMarkdownModal">&times;</button>
+        <div v-if="currentWriting" class="modal-header">
+          <h2>{{ currentWriting.title }}</h2>
+          <span class="modal-date">{{ formatDate(currentWriting.date) }}</span>
+        </div>
+        <div class="markdown-content" v-html="parsedMarkdown"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { marked } from 'marked'
 import writingData from '@/assets/component-data/writing-data.json'
 
 interface Writing {
@@ -60,6 +75,12 @@ interface Writing {
   filePath: string
   previewText?: string
 }
+
+// State
+const showMarkdownModal = ref(false)
+const currentWriting = ref<Writing | null>(null)
+const parsedMarkdown = ref('')
+const isLoading = ref(false)
 
 // Filter out entries with invalid file paths and sort by date
 const sortedWritings = computed(() => {
@@ -77,6 +98,7 @@ const sortedWritings = computed(() => {
     })
 })
 
+// Format date for display
 function formatDate(dateString: string): string {
   try {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -90,6 +112,7 @@ function formatDate(dateString: string): string {
   }
 }
 
+// Get filename from path
 function getFileName(filePath: string): string {
   try {
     return filePath.split('/').pop() || ''
@@ -99,27 +122,75 @@ function getFileName(filePath: string): string {
   }
 }
 
-function handleFileAction(filePath: string, action: 'read' | 'download') {
+// Handle markdown reading
+async function openMarkdownModal(writing: Writing) {
   try {
-    // Check if file exists (you might want to implement a more robust check)
-    fetch(filePath)
-      .then(response => {
-        if (!response.ok) throw new Error('File not found')
-        if (action === 'download') {
-          window.open(filePath, '_blank')
-        } else {
-          window.open(filePath, '_blank')
-        }
-      })
-      .catch(error => {
-        console.error('Error accessing file:', error)
-        alert('Sorry, this file is currently unavailable')
-      })
+    isLoading.value = true
+    currentWriting.value = writing
+    
+    const response = await fetch(writing.filePath)
+    if (!response.ok) throw new Error('Failed to fetch markdown content')
+    
+    const markdown = await response.text()
+    parsedMarkdown.value = marked(markdown)
+    showMarkdownModal.value = true
   } catch (error) {
-    console.error('Error handling file action:', error)
-    alert('Sorry, this file is currently unavailable')
+    console.error('Error loading markdown:', error)
+    alert('Failed to load the article. Please try again later.')
+  } finally {
+    isLoading.value = false
   }
 }
+
+// Handle file downloads
+async function handleFileDownload(writing: Writing) {
+  try {
+    isLoading.value = true
+    const response = await fetch(writing.filePath)
+    if (!response.ok) throw new Error('Failed to fetch file')
+    
+    const blob = await response.blob()
+    const url = window.URL.createObjectURL(blob)
+    
+    const a = document.createElement('a')
+    a.href = url
+    a.download = getFileName(writing.filePath)
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    
+    // Clean up the URL object after a short delay
+    setTimeout(() => window.URL.revokeObjectURL(url), 100)
+  } catch (error) {
+    console.error('Error downloading file:', error)
+    alert('Failed to download the file. Please try again later.')
+  } finally {
+    isLoading.value = false
+  }
+}
+
+// Close markdown modal
+function closeMarkdownModal() {
+  showMarkdownModal.value = false
+  currentWriting.value = null
+  parsedMarkdown.value = ''
+}
+
+// Handle escape key press
+function handleEscapeKey(event: KeyboardEvent) {
+  if (event.key === 'Escape' && showMarkdownModal.value) {
+    closeMarkdownModal()
+  }
+}
+
+// Add and remove event listeners
+onMounted(() => {
+  document.addEventListener('keydown', handleEscapeKey)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleEscapeKey)
+})
 </script>
 
 <style scoped>
@@ -199,71 +270,151 @@ function handleFileAction(filePath: string, action: 'read' | 'download') {
 
 .writing-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
   justify-content: flex-end;
 }
 
 .action-button {
   padding: 0.5rem 1rem;
+  border: none;
   border-radius: 4px;
-  text-decoration: none;
   font-size: 0.9rem;
-  transition: background-color 0.3s ease;
-  text-align: center;
-  min-width: 80px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  background: var(--accent-color);
+  color: var(--bg-primary);
 }
 
-.read-button {
-  background-color: transparent;
+.action-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.action-button:not(:disabled):hover {
+  opacity: 0.9;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--bg-primary);
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
   color: var(--text-primary);
-  border: 1px solid var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
 }
 
-.read-button:hover {
-  background-color: var(--bg-primary);
+.modal-header {
+  margin-bottom: 2rem;
 }
 
-.download-button {
-  background-color: var(--accent-color);
-  color: var(--bg-primary);
+.modal-header h2 {
+  margin: 0;
+  color: var(--text-primary);
 }
 
-.download-button:hover {
-  background-color: var(--accent-color-dark);
+.modal-date {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
-.external-button {
-  background-color: #1DA1F2;
-  color: var(--bg-primary);
+.markdown-content {
+  line-height: 1.6;
+  color: var(--text-primary);
 }
 
-.external-button:hover {
-  background-color: #0d8bd9;
+.markdown-content :deep(h1),
+.markdown-content :deep(h2),
+.markdown-content :deep(h3),
+.markdown-content :deep(h4) {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-heading);
 }
 
-@media (max-width: 1024px) {
-  .writing-item {
-    grid-template-columns: 2fr 2fr 1fr;
-    gap: 1rem;
-  }
+.markdown-content :deep(p) {
+  margin-bottom: 1rem;
+}
+
+.markdown-content :deep(code) {
+  background: var(--bg-secondary);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.markdown-content :deep(pre) {
+  background: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.markdown-content :deep(a) {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.markdown-content :deep(a:hover) {
+  text-decoration: underline;
+}
+
+.markdown-content :deep(ul),
+.markdown-content :deep(ol) {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.markdown-content :deep(blockquote) {
+  border-left: 4px solid var(--accent-color);
+  margin: 1rem 0;
+  padding-left: 1rem;
+  color: var(--text-secondary);
 }
 
 @media (max-width: 768px) {
-  .writing-section {
-    padding: 2rem 1rem;
-  }
-
   .writing-item {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   .writing-actions {
     justify-content: flex-start;
   }
 
-  .writings-container {
-    max-height: 500px;
+  .modal-content {
+    padding: 1.5rem;
+    width: 95%;
   }
 }
 </style>

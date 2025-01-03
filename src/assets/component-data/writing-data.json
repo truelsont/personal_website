@@ -1,26 +1,11 @@
 {
   "writings": [
     {
-      "title": "Test Markdown Article",
-      "date": "2023-12-31",
-      "type": "markdown",
-      "description": "A brief description of the markdown article",
-      "filePath": "/assets/files/writings/test00.md",
-      "previewText": "First few lines of the markdown content..."
-    },
-    {
-      "title": "Research Paper",
-      "date": "2023-11-15",
+      "title": "Paper",
+      "date": "2020-12-15",
       "type": "pdf",
-      "description": "Technical research paper on topic X",
-      "filePath": "/assets/files/writings/paper.pdf"
-    },
-    {
-      "title": "Twitter Thread on Tech",
-      "date": "2023-12-20",
-      "type": "external",
-      "description": "A detailed thread about modern web development practices",
-      "filePath": "https://twitter.com/example/status/123"
+      "description": "Paper on using the Spectral Clustering Applications",
+      "filePath": "../writings/21_241_Project.pdf"
     }
   ]
 }

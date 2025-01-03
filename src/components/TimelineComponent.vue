@@ -74,7 +74,7 @@ const items = ref([])
 const imageUrls = ref<Record<string, string>>({})
 
 // Use Vite's glob import to get all timeline images
-const images = import.meta.glob('../assets/images/**/image.png')
+const images = import.meta.glob('../assets/images/**/*')
 console.log('Available images:', images)
 
 onMounted(async () => {
@@ -121,6 +121,7 @@ const getImageUrl = (path: string) => {
   padding: 1rem 0 4rem;
   display: flex;
   flex-direction: column;
+  max-height: 90vh;
 }
 
 .timeline-scroll {
@@ -163,7 +164,7 @@ const getImageUrl = (path: string) => {
 }
 
 .timeline-line::before {
-  content: 'December 2024';
+  content: 'Present';
   top: -3rem;
 }
 
@@ -248,16 +249,18 @@ const getImageUrl = (path: string) => {
 
 .timeline-preview-image {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
   border-radius: 8px;
   margin-top: 1rem;
 }
 
 .main-image {
   width: 100%;
+  height: auto;
   max-height: 400px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px;
   margin-bottom: 1rem;
 }
@@ -271,8 +274,9 @@ const getImageUrl = (path: string) => {
 
 .additional-image {
   width: 100%;
-  height: 150px;
-  object-fit: cover;
+  height: auto;
+  max-height: 150px;
+  object-fit: contain;
   border-radius: 8px;
   transition: transform 0.2s;
 }
