@@ -43,9 +43,8 @@
 
 <script setup lang="ts">
 import contactData from '@/assets/component-data/contact-data.json'
-
-const contactInfo = contactData.contactInfo
 const resumeInfo = contactData.resume
+const contactInfo = contactData.contactInfo
 </script>
 
 <style scoped>

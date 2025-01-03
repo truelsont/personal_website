@@ -43,3 +43,19 @@ npm run test:unit
 ```sh
 npm run lint
 ```
+
+## Updating Component Data and Uploading Assets
+
+### Updating Component Data
+- Component data for the website is stored in JSON files located in the `src/assets/component-data` directory.
+- To update project information, modify the `projects-data.json` file.
+- For writing and timeline updates, edit `writing-data.json` and `timeline-data.json` respectively.
+- Ensure that any changes follow the existing JSON structure to avoid errors.
+
+### Uploading Images and Resume
+- Images used in the website should be uploaded to the `public/images` directory.
+- Ensure images are optimized for web use to improve load times.
+- The resume should be placed in the `public/resume` directory.
+- Update any links in the JSON data files to point to the correct paths for new images or resume versions.
+
+By following these instructions, you can easily manage the content and assets of your personal website.

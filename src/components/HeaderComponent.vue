@@ -7,6 +7,7 @@
         <li><a href="#projects" @click="scrollToSection('projects')">Projects</a></li>
         <li><a href="#writing" @click="scrollToSection('writing')">Writings</a></li>
         <li><a href="#contact" @click="scrollToSection('contact')">Contact</a></li>
+        <li><a :href="resumeInfo.link" download class="resume-link">Resume</a></li>
       </ul>
     </nav>
   </header>
@@ -14,11 +15,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import contactData from '@/assets/component-data/contact-data.json'
 
 const isVisible = ref(true)
 const lastScrollY = ref(0)
 const mouseNearTop = ref(false)
 const SHOW_HEADER_THRESHOLD = 50 // pixels from top to show header
+const resumeInfo = contactData.resume
 
 function updateHeaderVisibility(event?: MouseEvent) {
   const currentScrollY = window.scrollY
@@ -112,6 +115,15 @@ a {
 
 a:hover {
   color: var(--accent-color);
+}
+
+.resume-link {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.resume-link:hover {
+  color: var(--color-primary-hover);
 }
 
 @media (max-width: 768px) {

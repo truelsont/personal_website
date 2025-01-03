@@ -18,15 +18,6 @@
         </div>
 
         <div class="writing-actions">
-          <template v-if="writing.type === 'markdown'">
-            <button
-              class="action-button read-button"
-              @click="openMarkdownModal(writing)"
-              :disabled="isLoading"
-            >
-              {{ isLoading ? 'Loading...' : 'Read' }}
-            </button>
-          </template>
           <template v-if="writing.type === 'external'">
             <a :href="writing.filePath"
                class="action-button external-button"
@@ -35,13 +26,20 @@
               Visit
             </a>
           </template>
-          <template v-if="writing.type !== 'external'">
+          <template v-if="writing.type === 'pdf'">
+            <a :href="writing.filePath"
+               download
+               class="action-button download-button">
+              Download
+            </a>
+          </template>
+          <template v-if="writing.type === 'markdown'">
             <button
-              class="action-button download-button"
-              @click="handleFileDownload(writing)"
+              class="action-button read-button"
+              @click="openMarkdownModal(writing)"
               :disabled="isLoading"
             >
-              {{ isLoading ? 'Loading...' : 'Download' }}
+              {{ isLoading ? 'Loading...' : 'Read' }}
             </button>
           </template>
         </div>

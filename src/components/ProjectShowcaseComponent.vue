@@ -5,7 +5,7 @@
       <button class="nav-button prev" @click="prevProject" :disabled="currentIndex === 0">&lt;</button>
       <div class="projects-carousel">
         <div class="carousel-track" :style="{ transform: `translateX(-${currentIndex * (100/3)}%)` }">
-          <div v-for="project in projects" 
+          <div v-for="project in sortedProjects" 
                :key="project.id" 
                class="project-card" 
                @click="selectProject(project)">
@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-      <button class="nav-button next" @click="nextProject" :disabled="currentIndex >= projects.length - 3">&gt;</button>
+      <button class="nav-button next" @click="nextProject" :disabled="currentIndex >= sortedProjects.length - 3">&gt;</button>
     </div>
 
     <!-- Project Modal -->
@@ -61,10 +61,9 @@ import projectsData from '@/assets/component-data/projects-data.json'
 
 const currentIndex = ref(0)
 const selectedProject = ref(null)
-const projects = ref(projectsData.projects)
 
 const sortedProjects = computed(() => {
-  return [...projects.value].sort((a, b) => {
+  return [...projectsData.projects].sort((a, b) => {
     const priorityA = a.priority || Number.MAX_SAFE_INTEGER
     const priorityB = b.priority || Number.MAX_SAFE_INTEGER
     return priorityA - priorityB
@@ -76,7 +75,7 @@ const getCategoryColor = (category: string) => {
 }
 
 const nextProject = () => {
-  if (currentIndex.value < projects.value.length - 3) {
+  if (currentIndex.value < sortedProjects.value.length - 3) {
     currentIndex.value++
   }
 }
