@@ -25,7 +25,7 @@
   "resume": {
     "title": "Download Resume",
     "description": "Get my latest resume in PDF format",
-    "link": "/resume/01_2025_resume.pdf",
+    "link": "/personal_website/resume/01_2025_resume.pdf",
     "icon": "📄",
     "color": "#4CAF50",
     "lastUpdated": "December 2023"
