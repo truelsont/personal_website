@@ -332,15 +332,63 @@ const getImageUrl = (path: string) => {
 }
 
 @media (max-width: 768px) {
-  .timeline-item {
-    width: 300px;
+  .timeline-section {
+    padding: 0.5rem;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
   }
-  
+
+  .timeline-container {
+    padding: 1rem 0;
+  }
+
+  .timeline-line {
+    display: none;
+  }
+
+  .timeline-item {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
   .timeline-item.left,
   .timeline-item.right {
-    margin-left: 50%;
-    padding-left: 3rem;
-    padding-right: 0;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .timeline-content-wrapper {
+    width: 95%;
+    margin: 0 !important;
+  }
+
+  .timeline-connector {
+    display: none;
+  }
+
+  .timeline-content {
+    width: 100%;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+  }
+
+  .timeline-header {
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .timeline-preview-image {
+    max-height: 150px;
+  }
+
+  .additional-images {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
 }
 </style>

@@ -127,16 +127,33 @@ a:hover {
 }
 
 @media (max-width: 768px) {
+  .header {
+    padding: 0;
+  }
+
   nav {
-    padding: 0 1rem;
+    padding: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  nav::-webkit-scrollbar {
+    display: none;
   }
 
   ul {
-    gap: 1rem;
+    padding: 0.75rem 1rem;
+    justify-content: flex-start;
+    min-width: max-content;
+    gap: 1.25rem;
   }
 
   a {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    padding: 0.25rem 0;
   }
 }
 </style>

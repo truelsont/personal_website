@@ -287,12 +287,62 @@ h2 {
 }
 
 @media (max-width: 768px) {
-  .project-card {
-    min-width: 100%;
+  .projects-container {
+    padding: 0.5rem;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
   }
-  
+
+  .carousel-container {
+    width: 100%;
+    margin: 0;
+  }
+
   .carousel-track {
-    transform: translateX(-${currentIndex * 100}%) !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transform: none !important;
+  }
+
+  .project-card {
+    width: 100%;
+    min-width: unset;
+    margin: 0;
+    padding: 0.75rem;
+    cursor: pointer;
+  }
+
+  .project-card .project-description,
+  .project-card .project-links {
+    display: none;
+  }
+
+  .project-card .project-title {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .nav-button {
+    display: none;
+  }
+
+  .project-modal {
+    padding: 1rem;
+    width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .project-modal .project-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .project-modal .project-description {
+    display: block;
+    margin: 1rem 0;
   }
 }
 </style>

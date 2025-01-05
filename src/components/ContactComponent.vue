@@ -181,24 +181,66 @@ p {
 }
 
 @media (max-width: 768px) {
+  .contact-section {
+    padding: 1rem;
+  }
+
   .contact-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    padding: 0;
   }
   
   .contact-card, .resume-card {
     max-width: 100%;
+    height: auto;
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+  }
+
+  .resume-card {
+    grid-column: span 2;
   }
 
   .contact-header {
-    padding: 0 1rem;
+    padding: 0;
+    margin-bottom: 1rem;
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .thank-you-message {
-    font-size: 1.1rem;
+    font-size: 1rem;
+  }
+
+  .icon {
+    display: none;
+  }
+
+  .card-content {
+    padding: 0.5rem;
+    min-height: unset;
+  }
+
+  .card-content h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .card-content p {
+    display: none;
+  }
+
+  .card-overlay {
+    display: none;
+  }
+
+  .last-updated {
+    font-size: 0.8rem;
   }
 }
 </style>

@@ -1,22 +1,16 @@
 <template>
-  <div class="writing-section" id="writing">
+  <div class="writings-container" id="writing">
     <div class="writing-header">
       <h2>Writing</h2>
     </div>
-    
-    <div class="writings-container">
+    <div class="writing-list">
       <div v-for="writing in sortedWritings" 
            :key="writing.title"
            class="writing-item">
-        <div class="writing-title">
-          <h3>{{ writing.title }}</h3>
-          <span class="writing-date">{{ formatDate(writing.date) }}</span>
+        <div class="writing-content">
+          <h3 class="writing-title">{{ writing.title }}</h3>
+          <p class="writing-summary">{{ writing.description }}</p>
         </div>
-        
-        <div class="writing-summary">
-          <p>{{ writing.description }}</p>
-        </div>
-
         <div class="writing-actions">
           <template v-if="writing.type === 'external'">
             <a :href="writing.filePath"
@@ -29,8 +23,10 @@
           <template v-if="writing.type === 'pdf'">
             <a :href="writing.filePath"
                download
-               class="action-button download-button">
-              Download
+               class="download-button"
+               :title="writing.title">
+              <span class="download-text">Download</span>
+              <span class="download-icon">⬇️</span>
             </a>
           </template>
           <template v-if="writing.type === 'markdown'">
@@ -242,28 +238,23 @@ onUnmounted(() => {
   align-items: center;
 }
 
-.writing-title {
+.writing-content {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.writing-title h3 {
+.writing-title {
   font-size: 1.2rem;
   color: var(--text-primary);
   margin: 0;
 }
 
-.writing-date {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.writing-summary p {
-  color: var(--text-secondary);
+.writing-summary {
   font-size: 0.95rem;
   line-height: 1.4;
   margin: 0;
+  color: var(--text-secondary);
 }
 
 .writing-actions {
@@ -291,6 +282,27 @@ onUnmounted(() => {
 
 .action-button:not(:disabled):hover {
   opacity: 0.9;
+}
+
+.download-button {
+  padding: 0.4rem;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.download-button:hover {
+  background: none;
+  transform: none;
+}
+
+.download-text {
+  margin-right: 0.5rem;
+}
+
+.download-icon {
+  display: none;
 }
 
 /* Modal styles */
@@ -401,18 +413,61 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
+  .writings-container {
+    padding: 0.5rem;
+  }
+
   .writing-item {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    gap: 0.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+
+  .writing-title {
+    display: none;
+  }
+
+  .writing-summary {
+    font-size: 0.9rem;
+    line-height: 1.3;
+    flex: 1;
+    margin: 0;
   }
 
   .writing-actions {
-    justify-content: flex-start;
+    flex-shrink: 0;
   }
 
-  .modal-content {
-    padding: 1.5rem;
-    width: 95%;
+  .download-button {
+    padding: 0.4rem;
+    font-size: 1rem;
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+
+  .download-button:hover {
+    background: none;
+    transform: none;
+  }
+
+  .download-text {
+    display: none;
+  }
+
+  .download-icon {
+    display: inline;
+  }
+
+  .writing-header h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
   }
 }
 </style>
