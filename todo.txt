@@ -1,7 +1,0 @@
-need to make the resume download button work
-
-need to add all the projects
-
-need to deploy on github
-
-
